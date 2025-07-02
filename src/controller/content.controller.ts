@@ -7,9 +7,9 @@ import mongoose from "mongoose";
 
 const createContentSchema = z.object({
   link: z.string().url("Link must be a valid URL").min(1, "Link is required"),
-  typeofContent: z.enum(['link', 'image', 'video', 'text'], {
+  typeofContent: z.enum(["link", "image", "video", "text"], {
     errorMap: () => ({ message: "Invalid content type. Must be 'link', 'image', 'video', or 'text'." })
-  }),
+  }).transform(val => val.trim()),
   title: z.string().min(1, "Title is required"),
   tags: z.array(z.string().refine(val => mongoose.Types.ObjectId.isValid(val), "Invalid Tag ID")).optional(),
 });

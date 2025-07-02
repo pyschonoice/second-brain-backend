@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/user.routes";
 import contentRoutes from "./routes/content.routes";
 import brainRoutes from "./routes/brain.routes";
+import tagRoutes from  "./routes/tag.routes"
 
 // Load environment variables
 dotenv.config({
@@ -39,6 +40,7 @@ app.use(express.json());
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", contentRoutes);
 app.use("/api/v1", brainRoutes);
+app.use("/api/v1", tagRoutes);
 
 // test route
 app.get("/", (req, res) => {

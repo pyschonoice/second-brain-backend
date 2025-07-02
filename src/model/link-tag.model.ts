@@ -3,6 +3,7 @@ import crypto from "crypto";
 
 interface ITag extends mongoose.Document {
   title: string;
+  userId: mongoose.Types.ObjectId;
 }
 
 interface ILink extends mongoose.Document {
@@ -18,17 +19,24 @@ const tagSchema = new Schema<ITag>(
       required: true,
       unique: true,
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
+tagSchema.index({ title: 1, userId: 1 }, { unique: true });
+
 const linkSchema = new Schema<ILink>(
   {
     hash: {
       type: String,
-      required: true,
+      sparse: true,
       unique: true,
     },
     userId: {
@@ -48,8 +56,8 @@ linkSchema.methods.generateHash = async function () {
   }
 
   const inputString = this._id.toString();
-  const hash = crypto.createHash("md5").update(inputString).digest("hex");
-  this.hash = hash.substring(0, 8);
+  const hashCode = crypto.createHash("md5").update(inputString).digest("hex");
+  this.hash = hashCode.substring(0, 8);
 };
 
 linkSchema.pre("save", async function (next) {

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Request, Response } from "express";
-import { Link } from "../model/link-tag.model";
+import { Link, Tag } from "../model/link-tag.model";
 import Content from "../model/content.model";
 import User from "../model/user.model";
 import {
@@ -9,6 +9,7 @@ import {
   handleAuthError,
 } from "../utils/errorHandler";
 import mongoose from "mongoose";
+
 
 // Zod schema for the share endpoint's body
 const shareBrainSchema = z.object({
@@ -19,6 +20,7 @@ const shareBrainSchema = z.object({
 const getSharedBrainSchema = z.object({
   shareLink: z.string().min(1, "Share link hash is required."),
 });
+
 
 export const shareBrain = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -81,7 +83,10 @@ export const shareBrain = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const getSharedBrain = async (req: Request, res: Response): Promise<any>  => {
+export const getSharedBrain = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const { shareLink: hash } = getSharedBrainSchema.parse(req.params);
 
@@ -132,3 +137,4 @@ export const getSharedBrain = async (req: Request, res: Response): Promise<any> 
     return handleServerError(res, error, "Failed to retrieve shared content.");
   }
 };
+
