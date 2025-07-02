@@ -5,6 +5,7 @@ import userRoutes from "./routes/user.routes";
 import contentRoutes from "./routes/content.routes";
 import brainRoutes from "./routes/brain.routes";
 import tagRoutes from  "./routes/tag.routes"
+import cors from "cors";
 
 // Load environment variables
 dotenv.config({
@@ -30,11 +31,23 @@ if (!process.env.MONGODB_URI) {
   process.exit(1);
 }
 
+if (!process.env.CORS_ORIGIN) {
+  console.error(
+    "Fatal Error: CORS_ORIGIN environment variable is not defined."
+  );
+  process.exit(1);
+}
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN, 
+  credentials: true, 
+}));
 
 //routes
 app.use("/api/v1", userRoutes);
