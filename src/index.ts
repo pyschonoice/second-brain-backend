@@ -6,6 +6,7 @@ import contentRoutes from "./routes/content.routes";
 import brainRoutes from "./routes/brain.routes";
 import tagRoutes from  "./routes/tag.routes"
 import cors from "cors";
+import previewRoutes from "./routes/preview.routes";
 
 // Load environment variables
 dotenv.config({
@@ -54,6 +55,8 @@ app.use("/api/v1", userRoutes);
 app.use("/api/v1", contentRoutes);
 app.use("/api/v1", brainRoutes);
 app.use("/api/v1", tagRoutes);
+app.use("/api/v1", previewRoutes);
+
 
 // test route
 app.get("/", (req, res) => {
