@@ -1,7 +1,7 @@
 // src/controllers/preview.controller.ts
 import { Request, Response } from 'express';
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 interface LinkPreviewData {
   title?: string;
@@ -13,7 +13,6 @@ interface LinkPreviewData {
 
 export const getLinkPreview = async (req: Request, res: Response): Promise<any> => {
   const { url } = req.query;
-
   if (!url || typeof url !== 'string') {
     return res.status(400).json({ error: 'URL parameter is required and must be a string.' });
   }
