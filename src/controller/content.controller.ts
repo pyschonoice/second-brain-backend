@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 
 const createContentSchema = z.object({
-  link: z.string().url("Link must be a valid URL").min(1, "Link is required"),
+  link: z.string(),
   typeofContent: z.enum(["link", "image", "video", "text"], {
     errorMap: () => ({ message: "Invalid content type. Must be 'link', 'image', 'video', or 'text'." })
   }).transform(val => val.trim()),
@@ -35,7 +35,6 @@ export const createContent = async (req: Request, res: Response): Promise<any>  
        res.status(401).json({ success: false, message: "User not authenticated." });
        return;
     }
-
     const newContent = await Content.create({
       link,
       typeofContent,
